@@ -1,0 +1,31 @@
+fastapi>=0.110.0
+uvicorn>=0.27.1
+sqlalchemy>=2.0.27
+pymysql>=1.1.0
+python-jose>=3.3.0
+python-multipart>=0.0.9
+pytest>=8.0.0
+ruff>=0.3.0
+httpx>=0.27.0  # 用於測試
+pytest-asyncio>=0.23.5  # 用於非同步測試 
+annotated-types==0.7.0
+anyio==4.9.0
+certifi==2025.4.26
+charset-normalizer==3.4.2
+click==8.1.8
+colorama==0.4.6
+exceptiongroup==1.2.2
+h11==0.16.0
+idna==3.10
+itsdangerous==2.2.0
+pydantic==2.11.4
+pydantic_core==2.33.2
+python-dotenv==1.1.0
+requests==2.32.3
+sniffio==1.3.1
+starlette==0.46.2
+typing-inspection==0.4.0
+typing_extensions==4.13.2
+urllib3==2.4.0
+middleware
+openai>=1.14.0  # 用於 xAI Grok API
