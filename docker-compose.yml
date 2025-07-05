@@ -1,0 +1,59 @@
+services:
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: fortune_pass # MariaDB 照樣用 MYSQL_
+      MYSQL_DATABASE: fortune
+      MYSQL_USER: fortune_user
+      MYSQL_PASSWORD: fortune_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    # 不 expose 外部 port（安全）
+
+  backend:
+    build:
+      context: ./backend
+      platforms:
+        - linux/amd64 # 確保 M2 跑沒問題
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=fortune
+      - DB_USER=fortune_user
+      - DB_PASS=fortune_pass
+      - XAI_API_KEY=${XAI_API_KEY}
+      - XAI_API_BASE=${XAI_API_BASE}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    # 不 expose port，反代處理
+
+  frontend:
+    build:
+      context: ./frontend
+      platforms:
+        - linux/amd64 # 確保 M2 跑沒問題
+    environment:
+      - NUXT_PUBLIC_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - NUXT_PUBLIC_API_URL=http://localhost:8000
+      # SSR 相關環境變數
+      - NITRO_HOST=0.0.0.0
+      - NODE_ENV=development
+    # 開發模式下使用卷映射，方便修改代碼
+    volumes:
+      - ./frontend:/app
+      # 注意：將依賴安裝在容器內，不要與本地共享
+      - /app/node_modules
+      - /app/.nuxt
+    ports:
+      - "3000:3000"
+    # 不 expose port，反代處理
+
+volumes:
+  db_data:
