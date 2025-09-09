@@ -1,5 +1,7 @@
 fortune-grok
 
+![Example](./screeshot.jpg)
+
 🛠 專案簡介
 
 fortune-grok 是一個運勢查詢網站，讓使用者登入 Google 帳號後輸入三個中英文關鍵字（最多 20 字）查詢當日運勢（帶有表情符號的活潑風格）。
